@@ -1,0 +1,67 @@
+/* From Uiverse.io by satyamchaudharydev */ 
+.uiverse-subscribe-btn {
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  --primary-color: var(--text-primary);
+  --hovered-color: #c84747;
+  position: relative;
+  display: flex;
+  font-weight: 600;
+  font-size: 16px;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.uiverse-subscribe-btn p {
+  margin: 0;
+  position: relative;
+  font-size: 16px;
+  color: var(--primary-color);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.uiverse-subscribe-btn::after {
+  position: absolute;
+  content: "";
+  width: 0;
+  left: 0;
+  bottom: -7px;
+  background: var(--hovered-color);
+  height: 2px;
+  transition: 0.3s ease-out;
+}
+
+.uiverse-subscribe-btn p::before {
+  position: absolute;
+  content: "Subscribe";
+  width: 0%;
+  inset: 0;
+  color: var(--hovered-color);
+  overflow: hidden;
+  transition: 0.3s ease-out;
+}
+
+.uiverse-subscribe-btn:hover::after {
+  width: 100%;
+}
+
+.uiverse-subscribe-btn:hover p::before {
+  width: 100%;
+}
+
+.uiverse-subscribe-btn:hover svg {
+  transform: translateX(4px);
+  color: var(--hovered-color);
+}
+
+.uiverse-subscribe-btn svg {
+  color: var(--primary-color);
+  transition: 0.2s;
+  position: relative;
+  width: 18px;
+  transition-delay: 0.2s;
+}

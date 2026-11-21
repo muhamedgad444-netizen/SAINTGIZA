@@ -17,8 +17,8 @@ export default function Collections() {
 
   return (
     <main
-      className="runway-page"
-      style={{ paddingTop: headerH, background: '#fff', color: '#151413' }}
+      className="runway-page bg-background text-foreground transition-colors duration-300"
+      style={{ paddingTop: headerH }}
     >
       <RunwaySectionComponent />
     </main>

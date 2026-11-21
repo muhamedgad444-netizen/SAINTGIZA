@@ -31,7 +31,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8, duration: 0.8 }}
-          className="text-[10px] tracking-[0.4em] text-foreground/50 mb-4 uppercase"
+          className="text-[10px] tracking-[0.4em] text-sg-white/60 mb-4 uppercase"
         >
           Spring / Summer 2026
         </motion.p>
@@ -41,7 +41,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.0, duration: 0.8 }}
-          className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-[0.15em] text-center mb-3 uppercase"
+          className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-[0.15em] text-center mb-3 uppercase text-sg-white"
         >
           Essentials
         </motion.h2>
@@ -50,7 +50,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.2, duration: 0.8 }}
-          className="text-sm md:text-base font-light tracking-[0.2em] text-foreground/60 mb-10 text-center max-w-md"
+          className="text-sm md:text-base font-light tracking-[0.2em] text-sg-white/70 mb-10 text-center max-w-md"
         >
           Elevated basics for the modern silhouette
         </motion.p>
@@ -62,20 +62,20 @@ export default function Hero() {
           transition={{ delay: 1.4, duration: 0.8 }}
         >
           <Link
-            to="/shop"
+            to="/collections"
             id="hero-cta"
-            className="group relative inline-flex items-center gap-3 px-10 py-4 border border-sg-white/30 text-[11px] font-medium tracking-[0.3em] text-foreground uppercase overflow-hidden transition-all duration-500 hover:border-sg-white"
+            className="group relative inline-flex items-center gap-3 px-10 py-4 border border-sg-white/30 text-[11px] font-medium tracking-[0.3em] text-sg-white uppercase overflow-hidden transition-all duration-500 hover:border-sg-white"
           >
-            <span className="relative z-10 transition-colors duration-500 group-hover:text-background">
-              Shop the Collection
+            <span className="relative z-10 transition-colors duration-500 group-hover:text-sg-black">
+              Explore Collections
             </span>
             <svg
-              className="relative z-10 w-4 h-4 transition-all duration-500 group-hover:translate-x-1 group-hover:text-background"
+              className="relative z-10 w-4 h-4 transition-all duration-500 group-hover:translate-x-1 group-hover:text-sg-black"
               fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5"
             >
               <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
             </svg>
-            <span className="absolute inset-0 bg-foreground scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" />
+            <span className="absolute inset-0 bg-sg-white scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" />
           </Link>
         </motion.div>
       </div>
@@ -87,7 +87,7 @@ export default function Hero() {
         transition={{ delay: 2, duration: 1 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
       >
-        <span className="text-[9px] tracking-[0.3em] text-foreground/30 uppercase">Scroll</span>
+        <span className="text-[9px] tracking-[0.3em] text-sg-white/40 uppercase">Scroll</span>
         <motion.div
           animate={{ y: [0, 8, 0] }}
           transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}

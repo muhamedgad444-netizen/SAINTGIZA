@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import Hero from '../components/Hero'
-import ProductGrid from '../components/ProductGrid'
+import RunwaySectionComponent from '../components/RunwaySection'
 import CollectionsBanner from '../components/CollectionsBanner'
 
 export default function Home() {
@@ -12,8 +12,10 @@ export default function Home() {
       transition={{ duration: 0.5 }}
     >
       <Hero />
+      <section id="collections-runway" className="bg-background text-foreground transition-colors duration-300">
+        <RunwaySectionComponent />
+      </section>
       <CollectionsBanner />
-      <ProductGrid />
     </motion.main>
   )
 }

@@ -50,19 +50,18 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Shop */}
+          {/* Collections */}
           <div>
             <h4 className="text-[10px] tracking-[0.3em] text-sg-gray-500 uppercase mb-6">
-              Shop
+              Collections
             </h4>
             <ul className="space-y-3">
               {[
                 { label: 'Try the Look — Runway', to: '/collections' },
-                { label: 'New Arrivals', to: '/shop' },
-                { label: 'T-Shirts', to: '/shop' },
-                { label: 'Hoodies', to: '/shop' },
-                { label: 'Footwear', to: '/shop' },
-                { label: 'Outerwear', to: '/shop' },
+                { label: 'The City Edit', to: '/collections' },
+                { label: 'Gallery Opening', to: '/collections' },
+                { label: 'Studio Day', to: '/collections' },
+                { label: 'Essentials & Archive', to: '/collections' },
               ].map((item) => (
                 <li key={item.label}>
                   <Link

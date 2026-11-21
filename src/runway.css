@@ -1,12 +1,35 @@
 /* === Try the Look — Runway === */
 :root {
-  --font-body--family: Helvetica, Arial, sans-serif;
+  --font-body--family: 'Inter', Helvetica, Arial, sans-serif;
   --font-body--weight: 400;
-  --font-heading--family: Helvetica, Arial, sans-serif;
+  --font-heading--family: 'Inter', Helvetica, Arial, sans-serif;
   --font-heading--weight: 400;
-  --color-primary-button-background: #151413;
-  --color-primary-button-text: #fff;
+  --color-primary-button-background: var(--text-primary, #151413);
+  --color-primary-button-text: var(--bg-primary, #f5f5f0);
   --style-border-radius-buttons-primary: 0px;
+
+  --rw-c-stage: var(--bg-primary, #f5f5f0);
+  --rw-c-panel: var(--bg-primary, #f5f5f0);
+  --rw-c-text: var(--text-primary, #151413);
+  --rw-c-muted: color-mix(in srgb, var(--text-primary, #151413) 62%, transparent);
+  --rw-c-accent: var(--text-primary, #0e0e0e);
+  --rw-c-on-accent: var(--bg-primary, #ffffff);
+  --rw-c-line: color-mix(in srgb, var(--text-primary, #151413) 18%, transparent);
+  --rw-card: color-mix(in srgb, var(--text-primary, #151413) 8%, var(--bg-primary, #ffffff));
+}
+
+.dark {
+  --color-primary-button-background: var(--text-primary, #f5f5f0);
+  --color-primary-button-text: var(--bg-primary, #0a0a0a);
+
+  --rw-c-stage: var(--bg-primary, #0a0a0a);
+  --rw-c-panel: var(--bg-primary, #0a0a0a);
+  --rw-c-text: var(--text-primary, #f5f5f0);
+  --rw-c-muted: color-mix(in srgb, var(--text-primary, #f5f5f0) 62%, transparent);
+  --rw-c-accent: var(--text-primary, #f5f5f0);
+  --rw-c-on-accent: var(--bg-primary, #0a0a0a);
+  --rw-c-line: color-mix(in srgb, var(--text-primary, #f5f5f0) 15%, transparent);
+  --rw-card: color-mix(in srgb, var(--text-primary, #f5f5f0) 8%, var(--bg-primary, #0a0a0a));
 }
 
 [hidden] {
@@ -17,9 +40,9 @@ runway-section,
 .rw-sheet-host,
 #bag-dialog,
 #bag-status {
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: var(--font-body--family, 'Inter', Helvetica, Arial, sans-serif);
   font-weight: 400;
-  color: #151413;
+  color: var(--rw-c-text, var(--text-primary, #151413));
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
 }
@@ -60,7 +83,7 @@ runway-section a:focus-visible,
 .rw-sheet-host button:focus-visible,
 #bag-dialog button:focus-visible,
 #bag-dialog a:focus-visible {
-  outline: 2px solid #151413;
+  outline: 2px solid var(--rw-c-text, var(--text-primary, #151413));
   outline-offset: 4px;
 }
 
@@ -79,17 +102,17 @@ runway-section.rw {
   --rw-panel-pad: var(--rw-panel-pad-d, 32px);
   --rw-model-h: 560px;
 
-  --rw-stage: var(--rw-c-stage, #ffffff);
-  --rw-panel: var(--rw-c-panel, #ffffff);
-  --rw-text: var(--rw-c-text, #151413);
-  --rw-head: var(--rw-c-text, #151413);
+  --rw-stage: var(--rw-c-stage, var(--bg-primary, #ffffff));
+  --rw-panel: var(--rw-c-panel, var(--bg-primary, #ffffff));
+  --rw-text: var(--rw-c-text, var(--text-primary, #151413));
+  --rw-head: var(--rw-c-text, var(--text-primary, #151413));
   --rw-muted: var(--rw-c-muted, #66625c);
-  --rw-accent: var(--rw-c-accent, #0e0e0e);
-  --rw-on-accent: var(--rw-c-on-accent, #ffffff);
+  --rw-accent: var(--rw-c-accent, var(--text-primary, #0e0e0e));
+  --rw-on-accent: var(--rw-c-on-accent, var(--bg-primary, #ffffff));
   --rw-line: var(--rw-c-line, #c8c8c8);
 
-  --rw-btn-bg: var(--color-primary-button-background, #151413);
-  --rw-btn-fg: var(--color-primary-button-text, #fff);
+  --rw-btn-bg: var(--color-primary-button-background, var(--text-primary, #151413));
+  --rw-btn-fg: var(--color-primary-button-text, var(--bg-primary, #fff));
   --rw-btn-radius: var(--style-border-radius-buttons-primary, 0px);
 
   --rw-ease: cubic-bezier(.16, 1, .3, 1);
@@ -120,7 +143,7 @@ runway-section.rw {
 
 .rw__grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) var(--rw-panel-w, 380px);
+  grid-template-columns: minmax(0, 1fr) var(--rw-panel-w, 336px);
   grid-template-rows: minmax(0, 1fr);
   width: 100%;
   max-width: var(--rw-max, none);
@@ -161,8 +184,8 @@ runway-section.rw {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  gap: 24px;
-  padding: 44px 56px 0;
+  gap: 20px;
+  padding: 20px 44px 0;
   z-index: 5;
   position: relative;
 }
@@ -170,7 +193,7 @@ runway-section.rw {
 .rw__intro {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 6px;
   max-width: 640px;
 }
 
@@ -391,10 +414,10 @@ runway-section.rw {
   pointer-events: none;
   background: radial-gradient(
     closest-side,
-    rgb(20 16 12 / .30),
-    rgb(20 16 12 / .14) 45%,
-    rgb(20 16 12 / .04) 75%,
-    rgb(20 16 12 / 0)
+    color-mix(in srgb, var(--rw-text) 26%, transparent),
+    color-mix(in srgb, var(--rw-text) 12%, transparent) 45%,
+    color-mix(in srgb, var(--rw-text) 4%, transparent) 75%,
+    transparent
   );
 }
 
@@ -637,9 +660,9 @@ runway-section.rw {
   border-radius: 50%;
   display: grid;
   place-items: center;
-  color: #151413;
-  border: 1px solid color-mix(in srgb, #151413 28%, transparent);
-  background: color-mix(in srgb, #fff 40%, transparent);
+  color: var(--rw-text);
+  border: 1px solid color-mix(in srgb, var(--rw-text) 28%, transparent);
+  background: color-mix(in srgb, var(--rw-panel) 45%, transparent);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   opacity: 0;
@@ -716,7 +739,7 @@ runway-section.rw {
   display: flex;
   align-items: center;
   gap: 20px;
-  padding: 6px 44px 30px;
+  padding: 2px 44px 16px;
   z-index: 5;
   position: relative;
 }
@@ -729,7 +752,7 @@ runway-section.rw {
   place-items: center;
   border: 0;
   background: transparent;
-  color: #151413;
+  color: var(--rw-text);
   position: relative;
   cursor: pointer;
   padding: 0;
@@ -814,11 +837,11 @@ runway-section.rw {
 
 .rw__tick[aria-current="true"] {
   flex: 0 0 190px;
-  color: #151413;
+  color: var(--rw-text);
 }
 
 .rw__tick:hover {
-  color: #151413;
+  color: var(--rw-text);
 }
 
 .rw__tick-bar {
@@ -826,7 +849,7 @@ runway-section.rw {
   height: 2px;
   width: 100%;
   overflow: hidden;
-  background: color-mix(in srgb, #151413 14%, transparent);
+  background: color-mix(in srgb, var(--rw-text) 16%, transparent);
   transition: transform .5s var(--rw-ease);
 }
 
@@ -838,7 +861,7 @@ runway-section.rw {
   content: '';
   position: absolute;
   inset: 0;
-  background: #151413;
+  background: var(--rw-text);
   transform: scaleX(0);
   transform-origin: left center;
   transition: transform 1s var(--rw-ease), opacity .4s, background .4s;
@@ -1064,7 +1087,7 @@ runway-section.rw {
   aspect-ratio: 4 / 5;
   border-radius: var(--rw-thumb-radius, 0px);
   overflow: hidden;
-  background: color-mix(in srgb, #151413 5%, #fff);
+  background: color-mix(in srgb, var(--rw-text) 6%, var(--rw-panel));
 }
 
 .rw__media img {
@@ -1149,11 +1172,11 @@ runway-section.rw {
   width: 1px;
   height: 11px;
   margin-left: 10px;
-  background: color-mix(in srgb, #151413 50%, transparent);
+  background: color-mix(in srgb, var(--rw-text) 50%, transparent);
 }
 
 .rw__tag-text {
-  background: #151413;
+  background: var(--rw-text);
   color: var(--rw-panel);
   font-size: 9px;
   font-weight: 600;
@@ -1386,7 +1409,7 @@ runway-section.rw {
 
 .rw__opt-name {
   font-size: var(--rw-opt);
-  color: #151413;
+  color: var(--rw-text);
   margin-bottom: 8px;
   padding: 0;
 }
@@ -1420,7 +1443,7 @@ runway-section.rw {
   border-radius: var(--rw-pill-radius, 30px);
   border: 1px solid var(--rw-line);
   background: transparent;
-  color: #151413;
+  color: var(--rw-text);
   font-size: var(--rw-opt);
   transition:
     background .3s,
@@ -1431,13 +1454,13 @@ runway-section.rw {
 }
 
 .rw__pill:hover .rw__pill-label {
-  border-color: #151413;
+  border-color: var(--rw-text);
 }
 
 .rw__pill input[type="radio"]:checked + .rw__pill-label {
-  background: #151413;
-  color: #fff;
-  border-color: #151413;
+  background: var(--rw-text);
+  color: var(--rw-panel);
+  border-color: var(--rw-text);
 }
 
 .rw__pill:active .rw__pill-label {
@@ -1716,7 +1739,7 @@ runway-section.rw {
 
 .rw__lb-stage {
   position: absolute;
-  inset: 88px 48px 48px;
+  inset: 36px 24px 34px;
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -1803,8 +1826,9 @@ runway-section.rw {
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  border: 1px solid color-mix(in srgb, #151413 22%, transparent);
-  background: color-mix(in srgb, #fff 55%, transparent);
+  border: 1px solid color-mix(in srgb, var(--rw-text) 22%, transparent);
+  background: color-mix(in srgb, var(--rw-panel) 55%, transparent);
+  color: var(--rw-text);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   display: grid;
@@ -1816,7 +1840,7 @@ runway-section.rw {
 
 .rw__lb-close:hover {
   transform: rotate(90deg);
-  border-color: #151413;
+  border-color: var(--rw-text);
 }
 
 .rw__lb-close:focus-visible {
@@ -1851,8 +1875,8 @@ runway-section.rw {
   bottom: 24px;
   left: 50%;
   transform: translateX(-50%);
-  background: #151413;
-  color: #fff;
+  background: var(--text-primary, #151413);
+  color: var(--bg-primary, #fff);
   padding: 12px 20px;
   font-size: 12px;
   z-index: 2147483002;
@@ -1867,9 +1891,9 @@ runway-section.rw {
 }
 
 #bag-dialog {
-  border: 1px solid #d9d9d9;
-  background: #fff;
-  color: #151413;
+  border: 1px solid var(--rw-c-line, #d9d9d9);
+  background: var(--bg-primary, #fff);
+  color: var(--text-primary, #151413);
   padding: 24px;
   width: min(560px, calc(100vw - 32px));
   max-height: 85dvh;
@@ -1878,7 +1902,7 @@ runway-section.rw {
 }
 
 #bag-dialog::backdrop {
-  background: #0005;
+  background: #0006;
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
 }
@@ -1905,11 +1929,12 @@ runway-section.rw {
   cursor: pointer;
   display: grid;
   place-items: center;
+  color: var(--text-primary, #151413);
 }
 
 .bag-note {
   font-size: 12px;
-  color: #666;
+  color: var(--rw-c-muted, #666);
   line-height: 1.5;
   margin: 12px 0;
 }
@@ -1920,7 +1945,7 @@ runway-section.rw {
   gap: 18px;
   align-items: center;
   padding: 18px 0;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid var(--rw-c-line, #ddd);
 }
 
 .bag-row img {
@@ -1953,6 +1978,7 @@ runway-section.rw {
   background: none;
   border: 0;
   cursor: pointer;
+  color: var(--text-primary, #151413);
 }
 
 #bag-total {
@@ -1962,13 +1988,25 @@ runway-section.rw {
   margin: 0;
 }
 
+.bag-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+
 #export-bag {
-  background: #151413;
-  color: #fff;
-  border: 0;
+  flex: 1;
+  background: transparent;
+  color: var(--text-primary, #151413);
+  border: 1px solid var(--rw-c-line, #d9d9d9);
   padding: 16px 20px;
-  width: 100%;
+  font-size: 12px;
   cursor: pointer;
+  transition: background .25s, color .25s;
+}
+
+#export-bag:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--text-primary) 8%, transparent);
 }
 
 #export-bag:disabled {
@@ -1976,18 +2014,36 @@ runway-section.rw {
   cursor: not-allowed;
 }
 
+#checkout-bag {
+  flex: 1;
+  background: var(--text-primary, #151413);
+  color: var(--bg-primary, #fff);
+  text-align: center;
+  padding: 16px 20px;
+  font-size: 12px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity .25s;
+}
+
+#checkout-bag:hover {
+  opacity: 0.9;
+}
+
 /* === 12.4 Breakpoint 750–1099px === */
 @media (min-width: 750px) and (max-width: 1099px) {
   .rw__grid {
-    grid-template-columns: minmax(0, 1fr) min(380px, 380px);
+    grid-template-columns: minmax(0, 1fr) min(336px, 336px);
   }
   .rw__head {
-    padding: 36px 32px 0;
+    padding: 20px 28px 0;
     flex-direction: column;
     align-items: flex-start;
   }
   .rw__controls {
-    padding: 6px 22px 26px;
+    padding: 4px 22px 14px;
     gap: 12px;
   }
   .rw__tick[aria-current="true"] {
@@ -2055,7 +2111,7 @@ runway-section.rw {
     display: block;
     height: 2px;
     width: 100%;
-    background: color-mix(in srgb, #151413 14%, transparent);
+    background: color-mix(in srgb, var(--rw-text) 16%, transparent);
     position: relative;
     overflow: hidden;
   }
@@ -2318,7 +2374,7 @@ runway-section.rw {
   width: 52px;
   aspect-ratio: 4 / 5;
   overflow: hidden;
-  background: color-mix(in srgb, #151413 5%, #fff);
+  background: color-mix(in srgb, var(--rw-text, #151413) 6%, var(--rw-panel, #fff));
 }
 
 .rw-sheet-host .rw__picker-thumb img {

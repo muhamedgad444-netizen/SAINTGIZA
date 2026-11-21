@@ -45,6 +45,24 @@ export async function fetchProductsFromDb() {
   }))
 }
 
+export async function fetchLooksFromDb() {
+  const { data, error } = await supabase
+    .from('looks')
+    .select('*')
+    .order('position', { ascending: true })
+
+  if (error || !Array.isArray(data) || data.length === 0) return null
+
+  return data.map((row) => ({
+    id: row.id,
+    position: Number(row.position),
+    name: row.name,
+    description: row.description,
+    image: row.image,
+    productIds: Array.isArray(row.product_ids) ? row.product_ids : [],
+  }))
+}
+
 export async function submitOrderToDb({
   firstName,
   lastName,

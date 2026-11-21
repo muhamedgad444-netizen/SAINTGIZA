@@ -188,6 +188,34 @@ class StylingBag {
     this.loadStorage();
   }
 
+  registerProducts(productsMap) {
+    if (!productsMap || typeof productsMap !== 'object') return;
+    this.validateCatalog();
+    for (const prod of Object.values(productsMap)) {
+      if (!prod || !Array.isArray(prod.variants)) continue;
+      const numericPrice =
+        typeof prod.priceNumber === 'number'
+          ? prod.priceNumber
+          : Number(String(prod.price || '').replace(/[^0-9.]/g, '')) || 0;
+      const itemObj = {
+        id: prod.id,
+        name: prod.name,
+        type: prod.vendor || 'From the original lookbook',
+        price: numericPrice,
+        image: prod.image,
+        sizes: prod.options || [],
+        variants: prod.variants,
+        url: prod.url || `https://nike-makknzjs.myshopify.com/products/${prod.id}`,
+      };
+      for (const v of prod.variants) {
+        if (v && Number.isSafeInteger(v.id)) {
+          this.variantMap.set(v.id, { item: itemObj, variant: v });
+        }
+      }
+    }
+    this.render();
+  }
+
   validateCatalog() {
     if (this.validated) return;
     const cat = NATIVE_CATALOG;
@@ -837,14 +865,14 @@ class RunwaySection extends HTMLElement {
     let hy;
 
     if (this.mode === 'ring') {
-      modelH = Math.max(200, Math.round((this.H - 34 - 18) / 1.08));
+      modelH = Math.max(240, Math.round((this.H - 18 - 8) / 1.08));
       hx = 0.5 * this.W;
-      hy = 34;
+      hy = 18;
     } else {
-      const padBottom = this.isMobile ? 24 : 36;
-      modelH = Math.max(200, Math.round(this.H - padBottom - 18));
+      const padBottom = this.isMobile ? 16 : 22;
+      modelH = Math.max(240, Math.round(this.H - padBottom - 8));
       hx = (this.isMobile ? 0.3 : 0.4) * this.W;
-      hy = this.isMobile ? 22 : 36;
+      hy = this.isMobile ? 16 : 22;
     }
 
     this.stage.style.setProperty('--rw-model-h', `${modelH}px`);
@@ -906,7 +934,7 @@ class RunwaySection extends HTMLElement {
       const cx = 0.5 * W;
       const R = (this.isMobile ? 0.72 : 0.62) * W;
       const P = (this.isMobile ? 1.9 : 1.65) * W;
-      const floor = H - 34;
+      const floor = H - 18;
       const horizon = 0.36 * H;
       this.unit = Math.max(this.isMobile ? 90 : 120, 0.3 * W);
       const step = (2 * Math.PI) / 12;
@@ -934,7 +962,7 @@ class RunwaySection extends HTMLElement {
       // Classic mode (7.5)
       const W = this.W;
       const ax = this.isMobile ? 0.3 : 0.4;
-      const ay = this.isMobile ? 22 : 36;
+      const ay = this.isMobile ? 16 : 22;
       const sx = this.isMobile ? 0.32 : 0.125;
       const sy = this.isMobile ? 22 : 58;
       const sr = 0.76;
@@ -1431,19 +1459,8 @@ class RunwaySection extends HTMLElement {
   }
 
   // === 10.1 & 12.3 Size Picker & Mobile Sheet ===
-  ensureSheetHost() {
-    if (this.sheetHost) return this.sheetHost;
-    const host = document.createElement('div');
-    host.className = 'rw-sheet-host';
-    const scrim = document.createElement('button');
-    scrim.type = 'button';
-    scrim.className = 'rw__pick-scrim';
-    scrim.setAttribute('data-rw-pick-close', '');
-    scrim.tabIndex = -1;
-    scrim.setAttribute('aria-hidden', 'true');
-    host.appendChild(scrim);
-
-    // Copy computed tokens
+  syncSheetTokens(host) {
+    if (!host) return;
     const cs = getComputedStyle(this);
     const tokens = [
       '--rw-panel',
@@ -1471,6 +1488,24 @@ class RunwaySection extends HTMLElement {
     });
     host.style.fontFamily = cs.fontFamily;
     host.style.color = cs.color;
+  }
+
+  ensureSheetHost() {
+    if (this.sheetHost) {
+      this.syncSheetTokens(this.sheetHost);
+      return this.sheetHost;
+    }
+    const host = document.createElement('div');
+    host.className = 'rw-sheet-host';
+    const scrim = document.createElement('button');
+    scrim.type = 'button';
+    scrim.className = 'rw__pick-scrim';
+    scrim.setAttribute('data-rw-pick-close', '');
+    scrim.tabIndex = -1;
+    scrim.setAttribute('aria-hidden', 'true');
+    host.appendChild(scrim);
+
+    this.syncSheetTokens(host);
 
     host.addEventListener('click', (e) => this.handleDelegatedClick(e));
     host.addEventListener('change', (e) => {

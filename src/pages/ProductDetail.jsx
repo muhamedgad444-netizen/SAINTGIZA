@@ -78,7 +78,7 @@ export default function ProductDetail() {
     return (
       <div className="min-h-screen bg-background text-foreground flex flex-col items-center justify-center">
         <h1 className="text-2xl tracking-[0.2em] uppercase mb-4">Product Not Found</h1>
-        <Link to="/shop" className="text-sm underline underline-offset-4">Return to Shop</Link>
+        <Link to="/collections" className="text-sm underline underline-offset-4">Return to Collections</Link>
       </div>
     )
   }

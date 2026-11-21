@@ -1,16 +1,18 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import '../runway.css'
-import { initBagDialog } from '../runway-element'
+import { initBagDialog, stylingBag } from '../runway-element'
+import { fetchLooksFromDb, fetchProductsFromDb } from '../lib/supabase'
 
 const ASSET_BASE = 'https://reel-ref-try-the-look.vercel.app/assets/'
 const SECTION_ID = 'Runway-template--28035983671601__the_runway_wdM8BG'
 
-const PRODUCTS = {
+const DEFAULT_PRODUCTS = {
   'tatum-5-orbit-copy': {
     id: 'tatum-5-orbit-copy',
     name: 'Air Jordan 12 Retro',
     vendor: 'Nikey | Password: 1',
     price: '$149.00',
+    priceNumber: 149,
     legend: 'Shoe size',
     image: `${ASSET_BASE}source-tatum-5-orbit-copy.webp`,
     panelW: 400,
@@ -34,6 +36,7 @@ const PRODUCTS = {
     name: 'Tshirt',
     vendor: 'Nike',
     price: '$199.00',
+    priceNumber: 199,
     legend: 'Size',
     image: `${ASSET_BASE}source-tshirt.webp`,
     panelW: 400,
@@ -54,6 +57,7 @@ const PRODUCTS = {
     name: 'Sweatshirt',
     vendor: 'Nike',
     price: '$199.00',
+    priceNumber: 199,
     legend: 'Size',
     image: `${ASSET_BASE}source-sweatshirt.webp`,
     panelW: 400,
@@ -74,6 +78,7 @@ const PRODUCTS = {
     name: 'Tatum 5 Orbit',
     vendor: 'Nikey | Password: 1',
     price: '$149.00',
+    priceNumber: 149,
     legend: 'Shoe size',
     image: `${ASSET_BASE}source-tatum-5-orbit.webp`,
     panelW: 400,
@@ -97,6 +102,7 @@ const PRODUCTS = {
     name: 'Hoodie Black',
     vendor: 'Nike',
     price: '$199.00',
+    priceNumber: 199,
     legend: 'Size',
     image: `${ASSET_BASE}source-hoodie-black.webp`,
     panelW: 400,
@@ -117,6 +123,7 @@ const PRODUCTS = {
     name: 'Sweatshirt Plus',
     vendor: 'Nike',
     price: '$199.00',
+    priceNumber: 199,
     legend: 'Size',
     image: `${ASSET_BASE}source-sweatshirt-plus.webp`,
     panelW: 400,
@@ -137,6 +144,7 @@ const PRODUCTS = {
     name: 'Hoodie',
     vendor: 'Nike',
     price: '$199.00',
+    priceNumber: 199,
     legend: 'Size',
     image: `${ASSET_BASE}source-hoodie.webp`,
     panelW: 400,
@@ -157,6 +165,7 @@ const PRODUCTS = {
     name: 'Luka 5',
     vendor: 'Nikey | Password: 1',
     price: '$149.00',
+    priceNumber: 149,
     legend: 'Shoe size',
     image: `${ASSET_BASE}source-air-jordan-12-retro-copy.webp`,
     panelW: 400,
@@ -177,7 +186,7 @@ const PRODUCTS = {
   },
 }
 
-const LOOKS = [
+const DEFAULT_LOOKS = [
   {
     index: 0,
     num: '01',
@@ -289,11 +298,86 @@ const LOOKS = [
 ]
 
 const INLINE_TOKENS =
-  '--rw-c-stage:#ffffff;--rw-c-panel:#ffffff;--rw-c-text:#151413;--rw-c-muted:#66625c;--rw-c-accent:#0e0e0e;--rw-c-on-accent:#ffffff;--rw-c-line:#c8c8c8;--rw-card:#DFDFDF;--rw-hf:var(--font-heading--family, inherit);--rw-hw:400;--rw-h-d:46px;--rw-h-m:24px;--rw-sub-d:12px;--rw-sub-m:12px;--rw-eyebrow-d:11px;--rw-eyebrow-m:10px;--rw-label-d:10px;--rw-label-m:9px;--rw-chip-d:17px;--rw-chip-m:18px;--rw-ph-d:18px;--rw-ph-m:16px;--rw-pt-size-d:13px;--rw-pt-size-m:12px;--rw-price-d:12px;--rw-price-m:12px;--rw-opt-d:11px;--rw-opt-m:11px;--rw-total-d:16px;--rw-total-m:16px;--rw-thumb-d:92px;--rw-thumb-m:62px;--rw-tag-top:18px;--rw-tag-left:0px;--rw-thumb-radius:0px;--rw-morph:900ms;--rw-bar-r:20px;--rw-panel-w:380px;--rw-panel-pad-d:32px;--rw-radius:0px;--rw-max:none;--rw-speed:5s;--rw-ax:40%;--rw-btn-radius:0px;--rw-pill-radius:30px;--rw-add-radius:20px;'
+  '--rw-hf:var(--font-heading--family, inherit);--rw-hw:400;--rw-h-d:46px;--rw-h-m:24px;--rw-sub-d:12px;--rw-sub-m:12px;--rw-eyebrow-d:11px;--rw-eyebrow-m:10px;--rw-label-d:10px;--rw-label-m:9px;--rw-chip-d:17px;--rw-chip-m:18px;--rw-ph-d:18px;--rw-ph-m:16px;--rw-pt-size-d:13px;--rw-pt-size-m:12px;--rw-price-d:12px;--rw-price-m:12px;--rw-opt-d:11px;--rw-opt-m:11px;--rw-total-d:16px;--rw-total-m:16px;--rw-thumb-d:82px;--rw-thumb-m:62px;--rw-tag-top:18px;--rw-tag-left:0px;--rw-thumb-radius:0px;--rw-morph:900ms;--rw-bar-r:20px;--rw-panel-w:336px;--rw-panel-pad-d:28px;--rw-radius:0px;--rw-max:none;--rw-speed:5s;--rw-ax:40%;--rw-btn-radius:0px;--rw-pill-radius:30px;--rw-add-radius:20px;'
 
-function buildRunwayHTML() {
-  const modelsHTML = LOOKS.map(
-    (look, i) => `
+function mergeSupabaseIntoRunway(dbLooks, dbProducts) {
+  const productsMap = { ...DEFAULT_PRODUCTS }
+
+  if (Array.isArray(dbProducts)) {
+    dbProducts.forEach((dbProd) => {
+      const base = productsMap[dbProd.id]
+      const numericPrice = Number(dbProd.price) || (base ? base.priceNumber : 199)
+      const options =
+        Array.isArray(dbProd.sizes) && dbProd.sizes.length > 0
+          ? dbProd.sizes
+          : base?.options || ['S', 'M', 'L', 'XL']
+
+      productsMap[dbProd.id] = {
+        ...(base || {
+          panelW: 400,
+          panelH: 500,
+          sheetW: 160,
+          sheetH: 200,
+          legend: dbProd.category === 'Footwear' ? 'Shoe size' : 'Size',
+          variants: options.map((opt, idx) => ({
+            id: 900000000000 + idx,
+            a: true,
+            o: [opt],
+          })),
+        }),
+        id: dbProd.id,
+        name: dbProd.name || base?.name,
+        vendor: dbProd.subtitle || base?.vendor || 'SAINTGIZA',
+        price: `$${numericPrice.toFixed(2)}`,
+        priceNumber: numericPrice,
+        image: dbProd.image || base?.image,
+        url: dbProd.externalUrl || base?.url || `/product/${dbProd.id}`,
+        options,
+      }
+    })
+  }
+
+  const looksList = DEFAULT_LOOKS.map((defLook, idx) => {
+    const dbLook = Array.isArray(dbLooks)
+      ? dbLooks.find((l) => l.position === idx + 1) || dbLooks[idx]
+      : null
+    if (!dbLook) return defLook
+
+    const pieceIds =
+      Array.isArray(dbLook.productIds) && dbLook.productIds.length > 0
+        ? dbLook.productIds.filter((pid) => Boolean(productsMap[pid]))
+        : defLook.pieces.map((p) => p.id)
+
+    const pieces = pieceIds.map((pid, pIdx) => ({
+      id: pid,
+      tag: defLook.pieces[pIdx]?.tag || null,
+    }))
+
+    const pins = defLook.pins.map((pin, pIdx) => {
+      const pieceId = pieces[pIdx]?.id
+      const prod = pieceId ? productsMap[pieceId] : null
+      return {
+        ...pin,
+        tip: prod ? prod.name : pin.tip,
+      }
+    })
+
+    return {
+      ...defLook,
+      name: dbLook.name || defLook.name,
+      src640: dbLook.image || defLook.src640,
+      pieces,
+      pins,
+    }
+  })
+
+  return { looks: looksList, products: productsMap }
+}
+
+function buildRunwayHTML(looks = DEFAULT_LOOKS, products = DEFAULT_PRODUCTS) {
+  const modelsHTML = looks
+    .map(
+      (look, i) => `
       <div class="rw__model" data-rw-model data-index="${i}" aria-hidden="true">
         <span class="rw__shadow"></span>
         <div class="rw__figure" style="--rw-ar: 0.5625">
@@ -301,7 +385,7 @@ function buildRunwayHTML() {
             <img
               src="${look.src640}"
               srcset="${look.src640} 640w, ${look.src1080} 1080w"
-              sizes="(min-width: 1800px) 540px, (min-width: 750px) 420px, 320px"
+              sizes="(min-width: 1800px) 620px, (min-width: 750px) 480px, 340px"
               loading="eager"
               decoding="async"
               width="1100"
@@ -320,12 +404,14 @@ function buildRunwayHTML() {
           </div>
         </div>
       </div>`
-  ).join('')
+    )
+    .join('')
 
-  const heroesHTML = LOOKS.map((look, i) => {
-    const pinsHTML = look.pins
-      .map(
-        (p) => `
+  const heroesHTML = looks
+    .map((look, i) => {
+      const pinsHTML = look.pins
+        .map(
+          (p) => `
           <button
             type="button"
             class="rw__pin"
@@ -337,10 +423,10 @@ function buildRunwayHTML() {
           >
             <span class="rw__pin-dot">${p.n}</span>
           </button>`
-      )
-      .join('')
+        )
+        .join('')
 
-    return `
+      return `
       <div
         class="rw__hero${i === 0 ? ' is-on' : ''}"
         data-rw-hero
@@ -357,7 +443,7 @@ function buildRunwayHTML() {
               <img
                 src="${look.src640}"
                 srcset="${look.src640} 640w, ${look.src1080} 1080w"
-                sizes="(min-width: 1800px) 540px, (min-width: 750px) 420px, 320px"
+                sizes="(min-width: 1800px) 620px, (min-width: 750px) 480px, 340px"
                 loading="eager"
                 decoding="async"
                 width="1100"
@@ -378,10 +464,12 @@ function buildRunwayHTML() {
           </div>
         </div>
       </div>`
-  }).join('')
+    })
+    .join('')
 
-  const ticksHTML = LOOKS.map(
-    (look, i) => `
+  const ticksHTML = looks
+    .map(
+      (look, i) => `
       <button
         type="button"
         class="rw__tick"
@@ -392,18 +480,22 @@ function buildRunwayHTML() {
         <span class="rw__tick-bar"></span>
         <span class="rw__tick-label">${look.num}<span class="rw__tick-name">&nbsp;&nbsp;${look.name}</span></span>
       </button>`
-  ).join('')
+    )
+    .join('')
 
-  const panelsHTML = LOOKS.map((look, i) => {
-    const itemsHTML = look.pieces
-      .map((piece, idx) => {
-        const n = idx + 1
-        const prod = PRODUCTS[piece.id]
-        const pickerId = `Picker-${SECTION_ID}-look_${look.key}-${n}`
-        const radioName = `Opt-${SECTION_ID}-look_${look.key}-${n}-1`
-        const pillsHTML = prod.options
-          .map(
-            (opt, oIdx) => `
+  const panelsHTML = looks
+    .map((look, i) => {
+      let rawSum = 0
+      const itemsHTML = look.pieces
+        .map((piece, idx) => {
+          const n = idx + 1
+          const prod = products[piece.id] || DEFAULT_PRODUCTS[piece.id]
+          rawSum += prod.priceNumber || 0
+          const pickerId = `Picker-${SECTION_ID}-look_${look.key}-${n}`
+          const radioName = `Opt-${SECTION_ID}-look_${look.key}-${n}-1`
+          const pillsHTML = prod.options
+            .map(
+              (opt, oIdx) => `
               <label class="rw__pill">
                 <input
                   type="radio"
@@ -414,17 +506,15 @@ function buildRunwayHTML() {
                 />
                 <span class="rw__pill-label">${opt}</span>
               </label>`
-          )
-          .join('')
+            )
+            .join('')
 
-        return `
+          return `
           <li class="rw__item" data-rw-card="${n}" style="--i:${n}" data-title="${prod.name}">
             ${piece.tag ? `<span class="rw__tag"><span class="rw__tag-text">${piece.tag}</span></span>` : ''}
             <a
               class="rw__media"
-              href="${prod.url}"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/product/${prod.id}"
               tabindex="-1"
               aria-hidden="true"
             >
@@ -442,9 +532,7 @@ function buildRunwayHTML() {
               <span class="rw__type">${prod.vendor}</span>
               <a
                 class="rw__name"
-                href="${prod.url}"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="/product/${prod.id}"
               >${prod.name}</a>
               <span class="rw__price"><span>${prod.price}</span></span>
             </div>
@@ -500,10 +588,14 @@ function buildRunwayHTML() {
               <script type="application/json" data-rw-variants>${JSON.stringify(prod.variants)}</script>
             </div>
           </li>`
-      })
-      .join('')
+        })
+        .join('')
 
-    return `
+      const origPrice = rawSum > 0 ? `$${rawSum.toFixed(2)}` : '$547.00'
+      const bundlePrice = rawSum > 0 ? `$${(rawSum * 0.9).toFixed(2)}` : '$492.30'
+      const pieceCountLabel = `${look.pieces.length} pieces`
+
+      return `
       <div
         class="rw__look-panel${i === 0 ? ' is-in' : ''}"
         data-rw-panel="${i}"
@@ -511,7 +603,7 @@ function buildRunwayHTML() {
       >
         <div class="rw__mhead">
           <span class="rw__mhead-title">${look.name}</span>
-          <span class="rw__label">3 pieces</span>
+          <span class="rw__label">${pieceCountLabel}</span>
         </div>
         <ul class="rw__items" role="list">${itemsHTML}</ul>
         <div class="rw__bundle has-rule">
@@ -519,16 +611,16 @@ function buildRunwayHTML() {
           <div class="rw__bundle-row">
             <div class="rw__bundle-copy">
               <span class="rw__bundle-title">Complete the look</span>
-              <span class="rw__bundle-note">Bundle all 3 and save 10%</span>
+              <span class="rw__bundle-note">Bundle all ${look.pieces.length} and save 10%</span>
             </div>
             <div class="rw__bundle-price">
-              <s>$547.00</s>
-              <strong>$492.30</strong>
+              <s>${origPrice}</s>
+              <strong>${bundlePrice}</strong>
             </div>
           </div>
           <button type="button" class="rw__cta" data-rw-all>
             <span class="rw__cta-add">Add full look to bag</span>
-            <span class="rw__cta-m">Add full look — $492.30</span>
+            <span class="rw__cta-m">Add full look — ${bundlePrice}</span>
             <span class="rw__cta-done">Full look in your bag</span>
             <svg class="rw__cta-arrow" width="22" height="12" viewBox="0 0 26 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
               <path d="M1 7h24M19 1l6 6-6 6" />
@@ -538,9 +630,10 @@ function buildRunwayHTML() {
             </svg>
           </button>
         </div>
-        <template data-rw-pieces-text>3 pieces</template>
+        <template data-rw-pieces-text>${pieceCountLabel}</template>
       </div>`
-  }).join('')
+    })
+    .join('')
 
   return `
     <runway-section
@@ -665,9 +758,9 @@ function buildRunwayHTML() {
       </p>
       <div id="bag-items"></div>
       <p id="bag-total"></p>
-      <div style="display:flex;gap:10px;margin-top:4px;">
-        <button type="button" id="export-bag" style="flex:1;">Download outfit shortlist</button>
-        <a href="/checkout" id="checkout-bag" style="flex:1;background:#151413;color:#fff;text-align:center;padding:16px 20px;font-size:12px;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;">Proceed to Checkout →</a>
+      <div class="bag-actions">
+        <button type="button" id="export-bag">Download outfit shortlist</button>
+        <a href="/checkout" id="checkout-bag">Proceed to Checkout →</a>
       </div>
     </dialog>
 
@@ -675,19 +768,42 @@ function buildRunwayHTML() {
   `
 }
 
-const RUNWAY_MARKUP = buildRunwayHTML()
+const INITIAL_MARKUP = buildRunwayHTML(DEFAULT_LOOKS, DEFAULT_PRODUCTS)
 
 export default function RunwaySectionComponent() {
   const containerRef = useRef(null)
+  const [markup, setMarkup] = useState(INITIAL_MARKUP)
+  const [dataRevision, setDataRevision] = useState(0)
+
+  useEffect(() => {
+    let alive = true
+    Promise.all([fetchLooksFromDb(), fetchProductsFromDb()])
+      .then(([dbLooks, dbProducts]) => {
+        if (!alive) return
+        if ((dbLooks && dbLooks.length > 0) || (dbProducts && dbProducts.length > 0)) {
+          const merged = mergeSupabaseIntoRunway(dbLooks, dbProducts)
+          stylingBag.registerProducts(merged.products)
+          setMarkup(buildRunwayHTML(merged.looks, merged.products))
+          setDataRevision((r) => r + 1)
+        }
+      })
+      .catch(() => {
+        // Fallback looks & products remain active
+      })
+    return () => {
+      alive = false
+    }
+  }, [])
 
   useEffect(() => {
     initBagDialog()
-  }, [])
+  }, [dataRevision])
 
   return (
     <div
+      key={dataRevision}
       ref={containerRef}
-      dangerouslySetInnerHTML={{ __html: RUNWAY_MARKUP }}
+      dangerouslySetInnerHTML={{ __html: markup }}
     />
   )
 }

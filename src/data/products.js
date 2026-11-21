@@ -323,6 +323,6 @@ export const products = [
 
 export const collections = [
   { name: 'TRY THE LOOK', season: 'RUNWAY 01–06', count: 8, path: '/collections' },
-  { name: 'ESSENTIALS', season: 'SS26', count: 6, path: '/shop' },
-  { name: 'ARCHIVE', season: 'AW25', count: 14, path: '/shop' },
+  { name: 'ESSENTIALS', season: 'SS26', count: 6, path: '/collections' },
+  { name: 'ARCHIVE', season: 'AW25', count: 14, path: '/collections' },
 ]

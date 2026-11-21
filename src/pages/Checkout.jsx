@@ -129,16 +129,16 @@ export default function Checkout() {
         </p>
         <div className="flex flex-wrap items-center justify-center gap-4 mt-4">
           <Link
-            to="/shop"
-            className="px-8 py-3 border border-foreground/20 text-[11px] tracking-[0.3em] uppercase hover:bg-foreground hover:text-background transition-all duration-500"
-          >
-            Continue Shopping
-          </Link>
-          <Link
             to="/collections"
             className="px-8 py-3 border border-foreground/20 text-[11px] tracking-[0.3em] uppercase hover:bg-foreground hover:text-background transition-all duration-500"
           >
-            Explore Runway
+            Explore Collections
+          </Link>
+          <Link
+            to="/"
+            className="px-8 py-3 border border-foreground/20 text-[11px] tracking-[0.3em] uppercase hover:bg-foreground hover:text-background transition-all duration-500"
+          >
+            Back to Home
           </Link>
         </div>
       </motion.div>

@@ -8,8 +8,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: 'var(--bg-primary)',
-        foreground: 'var(--text-primary)',
+        background: 'rgb(var(--bg-primary-rgb) / <alpha-value>)',
+        foreground: 'rgb(var(--text-primary-rgb) / <alpha-value>)',
         'sg-black': '#0a0a0a',
         'sg-white': '#f5f5f0',
         'sg-cream': '#e8e4de',

@@ -5,7 +5,6 @@ import ThemeToggle from './ThemeToggle'
 import { useCart } from '../context/CartContext'
 
 const navLinks = [
-  { name: 'SHOP', path: '/shop' },
   { name: 'COLLECTIONS', path: '/collections' },
   { name: 'ABOUT', path: '/about' },
 ]
@@ -18,8 +17,6 @@ export default function Navbar({ cartCount = 0 }) {
   const location = useLocation()
   const navigate = useNavigate()
   const { catalog } = useCart()
-
-  const isLightFixedRoute = location.pathname === '/collections'
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50)
@@ -51,23 +48,10 @@ export default function Navbar({ cartCount = 0 }) {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-        style={
-          isLightFixedRoute
-            ? {
-                '--bg-primary': '#ffffff',
-                '--text-primary': '#151413',
-                backgroundColor: '#ffffff',
-                color: '#151413',
-                borderBottom: '1px solid #e4e4e4',
-              }
-            : undefined
-        }
         className={`shopify-section-group-header-group fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          isLightFixedRoute
-            ? 'bg-white text-[#151413] border-b border-[#e4e4e4]'
-            : scrolled
-              ? 'bg-background/90 backdrop-blur-xl border-b border-foreground/10'
-              : 'bg-background/75 backdrop-blur-md border-b border-foreground/5'
+          scrolled
+            ? 'bg-background/90 backdrop-blur-xl border-b border-foreground/10'
+            : 'bg-background/75 backdrop-blur-md border-b border-foreground/5'
         }`}
       >
         <nav className="flex items-center justify-between px-6 md:px-12 py-5">

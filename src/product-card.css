@@ -1,0 +1,184 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+/* Base variables adapted for SaintGiza Theme */
+:root {
+  --pc-bg: var(--bg-primary); /* Maps perfectly to Light mode initially */
+  --pc-shadow: rgba(0, 0, 0, 0.1);
+  --pc-btn-bg: #c8b560;
+  --pc-btn-shadow: rgba(150, 130, 50, 0.4);
+  --pc-text: var(--text-primary);
+  --pc-cursive: 'Pacifico', cursive;
+  --pc-border: rgba(0, 0, 0, 0.1);
+}
+
+.dark {
+  --pc-bg: var(--bg-primary); /* Automatically gets #0a0a0a */
+  --pc-shadow: rgba(0, 0, 0, 0.5);
+  --pc-text: var(--text-primary);
+  --pc-border: rgba(255, 255, 255, 0.05);
+}
+
+.product-card-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.pc-card {
+  background-color: var(--pc-bg);
+  width: 100%;
+  max-width: 600px;
+  min-height: 400px;
+  box-shadow: 8px 12px 30px var(--pc-shadow);
+  color: var(--pc-text);
+  font-weight: normal;
+  text-align: left;
+  font-size: 16px;
+  position: relative;
+  border: 1px solid var(--pc-border);
+  border-radius: 4px;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  cursor: pointer;
+  margin: 40px auto;
+}
+
+.pc-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 15px 25px 40px var(--pc-shadow);
+}
+
+.pc-details {
+  width: 55%;
+  float: left;
+  height: 100%;
+  padding: 40px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 2;
+  position: relative;
+}
+
+.pc-details h1 {
+  color: var(--pc-text);
+  font-family: var(--pc-cursive);
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+.pc-details p {
+  opacity: 0.7;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+.pc-btn {
+  width: 150px;
+  height: 50px;
+  background-color: var(--pc-btn-bg);
+  border: none;
+  font-family: 'Inter', sans-serif;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 12px;
+  color: #0a0a0a;
+  box-shadow: 4px 6px 15px var(--pc-btn-shadow);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.pc-btn:hover {
+  transform: translateY(-2px);
+  background-color: #d1b953;
+  box-shadow: 6px 10px 20px var(--pc-btn-shadow);
+}
+
+.pc-image {
+  position: absolute;
+  right: -30px;
+  top: -50px;
+  z-index: 1;
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.pc-card:hover .pc-image {
+  transform: scale(1.05) rotate(-2deg);
+}
+
+.pc-image img {
+  max-width: 330px;
+  width: 100%;
+  border-radius: 8px;
+  filter: drop-shadow(10px 10px 20px rgba(0,0,0,0.5));
+}
+
+/* Alternate Layout for Even Items */
+.pc-card.alt .pc-details {
+  float: right;
+  text-align: right;
+}
+
+.pc-card.alt .pc-image {
+  right: auto;
+  left: -30px;
+}
+
+.pc-card.alt:hover .pc-image {
+  transform: scale(1.05) rotate(2deg);
+}
+
+/* Responsive Styles */
+@media (max-width: 900px) {
+  .pc-card {
+    min-height: 350px;
+  }
+  .pc-image img {
+    max-width: 250px;
+  }
+  .pc-details h1 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .pc-card {
+    overflow: hidden;
+    margin-bottom: 50px;
+    margin-left: 20px;
+    margin-right: 20px;
+    width: auto;
+    float: none;
+  }
+  .pc-details {
+    width: 100%;
+    float: none;
+    padding-top: 200px; /* Space for image */
+    text-align: center;
+    background: linear-gradient(to top, var(--pc-bg) 60%, transparent);
+  }
+  .pc-card.alt .pc-details {
+    float: none;
+    text-align: center;
+  }
+  .pc-image, .pc-card.alt .pc-image {
+    width: 100%;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    top: -20px;
+    text-align: center;
+  }
+  .pc-card:hover .pc-image, .pc-card.alt:hover .pc-image {
+    transform: translateX(-50%) scale(1.05);
+  }
+  .pc-image img {
+    max-width: 280px;
+    margin: 0 auto;
+  }
+  .pc-btn {
+    margin: 0 auto;
+  }
+}

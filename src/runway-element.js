@@ -537,8 +537,10 @@ class StylingBag {
       const img = document.createElement('img');
       img.src = item.image;
       img.alt = item.name;
-      img.width = 60;
-      img.height = 80;
+      img.width = 80;
+      img.height = 100;
+      img.loading = 'lazy';
+      img.decoding = 'async';
 
       const details = document.createElement('div');
       const h3 = document.createElement('h3');

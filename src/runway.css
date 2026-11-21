@@ -1941,7 +1941,7 @@ runway-section.rw {
 
 .bag-row {
   display: grid;
-  grid-template-columns: 60px 1fr auto;
+  grid-template-columns: 80px 1fr auto;
   gap: 18px;
   align-items: center;
   padding: 18px 0;
@@ -1949,10 +1949,14 @@ runway-section.rw {
 }
 
 .bag-row img {
-  width: 60px;
-  height: 80px;
-  object-fit: contain;
+  width: 80px;
+  height: 100px;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: 4px;
+  background: var(--rw-card, rgba(0, 0, 0, 0.04));
   display: block;
+  flex-shrink: 0;
 }
 
 .bag-row h3 {
